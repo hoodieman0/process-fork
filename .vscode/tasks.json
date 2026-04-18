@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Configure (Debug)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S", ".",
+                "-B", "build",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DBUILD_TESTING=ON"
+            ],
+            "group": "build",
+            "presentation": { "reveal": "always" }
+        },
+        {
+            "label": "CMake: Build (Debug)",
+            "type": "shell",
+            "command": "cmake",
+            "args": ["--build", "build", "--parallel"],
+            "group": { "kind": "build", "isDefault": true },
+            "dependsOn": "CMake: Configure (Debug)",
+            "presentation": { "reveal": "always" }
+        },
+        {
+            "label": "CTest: Run Tests",
+            "type": "shell",
+            "command": "ctest",
+            "args": ["--test-dir", "build", "--output-on-failure"],
+            "group": { "kind": "test", "isDefault": true },
+            "dependsOn": "CMake: Build (Debug)",
+            "presentation": { "reveal": "always" }
+        },
+        {
+            "label": "Run Application",
+            "type": "shell",
+            "command": "./build/MyProject",
+            "group": "none",
+            "dependsOn": "CMake: Build (Debug)",
+            "presentation": { "reveal": "always" }
+        }
+    ]
+}

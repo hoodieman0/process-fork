@@ -1,0 +1,13 @@
+# Keep the image build context lean
+
+build/
+out/
+cmake-build-*/
+_deps/
+.git/
+.github/
+.vscode/
+*.md
+.gitignore
+.dockerignore
+compose.yml

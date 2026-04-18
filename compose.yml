@@ -1,0 +1,15 @@
+services:
+
+  # Run the application
+  app:
+    build:
+      context: .
+      target: runtime
+    image: myproject:latest
+
+  # Run tests only (exits after tests complete)
+  test:
+    build:
+      context: .
+      target: tester
+    image: myproject:test
