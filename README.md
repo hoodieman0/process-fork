@@ -1,29 +1,80 @@
-# C++ Template Repository
+# Process Forking Learning
 
-A minimal, batteries-included C++ project template using **CMake**, **GoogleTest**, and **Docker**.
+Me learning how to properly use unix processes.
+
+---
+
+## Architecture
+* Setup
+    * Create all processes from a single executable.
+* Message Broker
+    * Central place to process messages and pass them to the correct service.
+* Logger
+    * Handles log messages from across the system.
+* Producers
+    * Inputs data into the system.
+    * Hands off data messages to the Message Broker service.
+* Consumers
+    * Processes data from producers.
+    * TODO: send to database.
+* Controller
+    * User facing control software to manipulate the system.
 
 ---
 
-## Repository Layout
+## IPCs
+* Message Broker
+    * Named pipes for control line, producer/consumer registration, logger, producer data in line and control line, and consumer data out line and control line.
+* Producer
+    * Named pipes for control line, data out line, and logger.
+* Consumer
+    * Named pipes for control line, data in line, and logger.
+* Logger
+    * Named pipe for log message in.
+* Controller
+    * Named pipe for control message out.
 
-```
-.
-├── src/
-│   ├── main.cpp        # Application entry point
-│   └── add.hpp         # Example utility (replace with your code)
-├── tests/
-│   ├── CMakeLists.txt  # Test build configuration
-│   └── test_add.cpp    # Example GoogleTest test suite
-├── .vscode/
-│   ├── launch.json     # Debugger configurations (gdb + lldb)
-│   ├── tasks.json      # Build / test / run tasks
-│   └── extensions.json # Recommended VS Code extensions
-├── CMakeLists.txt      # Root build configuration
-├── Dockerfile          # Multi-stage Docker build
-└── compose.yml         # Docker Compose services
-```
+### Producer/Consumer Registration
+#### Request Register
+* signature (4 bytes): miku
+* type (1 byte): 1 for producer, 2 for consumer
+* id len (1 byte):
+* id (string, n bytes)
+* null terminator (1 byte)
 
----
+#### Confirm Register
+* signature (4 bytes): miku
+* ack (1 byte): \0x06
+* uid (1 byte)
+* null terminator (1 byte)
+
+#### Deny Register
+* signature (4 bytes): miku
+* nack (1 byte): \0x25
+* null terminator (1 byte)
+
+### Data Messages
+* signature (4 bytes): miku
+* producer uid (1 byte)
+* frame # (4 bytes, uint)
+* msg len (4 bytes, uint): n
+* msg (n bytes)
+* null terminator (1 byte)
+
+### Control Commands
+* signature (4 bytes): miku
+* cmd id (1 byte)
+* cmd specific message
+* null terminator (1 byte)
+
+#### Command IDs
+- 1: Start
+- 2: Stop
+- 3: Restart
+- 4: Status
+    - Add fd (4 bytes)
+- 5: Dump
+    - Add fd (4 bytes)
 
 ## Prerequisites
 
