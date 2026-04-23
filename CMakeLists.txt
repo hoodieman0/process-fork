@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(
-    MyProject
+    process-fork
     VERSION 0.1.0
     LANGUAGES CXX
 )
@@ -29,6 +29,33 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
 )
+
+add_executable(messagebroker
+    src/messagebroker/main.cpp
+    src/messagebroker/Broker.cpp
+)
+
+target_include_directories(messagebroker PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/messagebroker
+)
+
+add_executable(logger
+    src/logger/main.cpp
+)
+
+add_executable(producer
+    src/producer/main.cpp
+)
+
+add_executable(processor
+    src/processor/main.cpp
+)
+
+add_executable(controller
+    src/controller/main.cpp
+)
+
+
 
 # ── Testing ──────────────────────────────────────────────────────────────────
 include(CTest)
