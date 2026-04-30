@@ -34,38 +34,33 @@ Me learning how to properly use unix processes.
 * Controller
     * Named pipe for control message out.
 
+All payloads start with a 4-byte signature and ends with a null terminator
+* signature (4 bytes): miku
+* payload (see below)
+* null terminator (1 byte): 0x00
+
 ### Producer/Consumer Registration
 #### Request Register
-* signature (4 bytes): miku
 * type (1 byte): 1 for producer, 2 for consumer
 * id len (1 byte):
 * id (string, n bytes)
-* null terminator (1 byte)
 
 #### Confirm Register
-* signature (4 bytes): miku
-* ack (1 byte): \0x06
+* ack (1 byte): 0x06
 * uid (1 byte)
-* null terminator (1 byte)
 
 #### Deny Register
-* signature (4 bytes): miku
-* nack (1 byte): \0x25
-* null terminator (1 byte)
+* nack (1 byte): 0x25
 
 ### Data Messages
-* signature (4 bytes): miku
 * producer uid (1 byte)
 * frame # (4 bytes, uint)
 * msg len (4 bytes, uint): n
 * msg (n bytes)
-* null terminator (1 byte)
 
 ### Control Commands
-* signature (4 bytes): miku
 * cmd id (1 byte)
 * cmd specific message
-* null terminator (1 byte)
 
 #### Command IDs
 - 1: Start
