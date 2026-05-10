@@ -45,6 +45,13 @@ add_executable(logger
 
 add_executable(producer
     src/producer/main.cpp
+    src/producer/Publisher.cpp
+    src/producer/Generator.cpp
+)
+
+target_include_directories(producer PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/producer
 )
 
 add_executable(processor
