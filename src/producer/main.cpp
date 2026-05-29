@@ -18,8 +18,6 @@ int main()
         return EXIT_FAILURE;
     }
 
-    std::ifstream dataOut("/tmp/producer-out", std::ios::out | std::ios::binary);
-
     Publisher publisher(, publishFd);
 
     for (size_t i = 0; i < 10; i++)

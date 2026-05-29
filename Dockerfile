@@ -37,6 +37,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /workspace/build/MyProject .
+COPY --from=builder /workspace/build/process-fork .
+COPY --from=builder /workspace/build/messagebroker .
+COPY --from=builder /workspace/build/logger .
+COPY --from=builder /workspace/build/producer .
+COPY --from=builder /workspace/build/processor .
+COPY --from=builder /workspace/build/controller .
 
-ENTRYPOINT ["./MyProject"]
+ENTRYPOINT ["./process-fork"]

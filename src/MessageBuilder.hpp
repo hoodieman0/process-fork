@@ -32,6 +32,8 @@ namespace MessageBuilder {
     size_t buildRequestRegisterMessage(const std::string& id, bool isProducer, unsigned char* buffer, const size_t& bufferSize, const size_t& startIndex) noexcept;
     size_t buildConfirmRegisterMessage(const message::UID uid, unsigned char* buffer, const size_t& bufferSize, const size_t& startIndex) noexcept;
     size_t buildFailedRegisterMessage(unsigned char* buffer, const size_t& bufferSize, const size_t& startIndex) noexcept;
+
+    bool isValidMessage(const unsigned char* const buffer, size_t offset);
 };
 
 #endif // MESSAGEBUILDER_HPP

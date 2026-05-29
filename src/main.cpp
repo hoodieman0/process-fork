@@ -7,11 +7,11 @@
 #include <unistd.h>
 #include <iostream>
 
-const char* const PRODUCER_PATH = "./build/producer";
-const char* const CONSUMER_PATH = "./build/consumer";
-const char* const MESSAGE_BROKER_PATH = "./build/messagebroker";
-const char* const CONTROLLER_PATH = "./build/controller";
-const char* const LOGGER_PATH = "./build/logger";
+const char* const PRODUCER_PATH = "./producer";
+const char* const CONSUMER_PATH = "./consumer";
+const char* const MESSAGE_BROKER_PATH = "./messagebroker";
+const char* const CONTROLLER_PATH = "./controller";
+const char* const LOGGER_PATH = "./logger";
 
 int setupMessageBroker();
 int setupProducer();

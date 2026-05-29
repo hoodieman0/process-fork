@@ -89,3 +89,35 @@ size_t MessageBuilder::buildFailedRegisterMessage(unsigned char* buffer, const s
     offset += 1;
     return requiredSize;
 }
+
+bool MessageBuilder::isValidMessage(const unsigned char* const buffer, const size_t count, const size_t offset)
+{
+    if (count < 6)
+    {
+        return false;
+    }
+    if (buffer == nullptr)
+    {
+        return false;
+    }
+    const unsigned char* arr = buffer + offset;
+
+    int result = std::memcmp(arr, message::MESSAGE_SIGNATURE, 4);
+    if (result != 0)
+    {
+        return false;
+    }
+
+    arr = arr + 4;
+
+    for (size_t i = 0; i < count; i++)
+    {
+        if (*arr == '\0')
+        {
+            return true;
+        }
+        arr += 1;
+    }
+
+    return false;
+}

@@ -32,17 +32,29 @@ bool registrar::producer::reserve(const std::string& id, message::Producer& prod
     {
         perror("poll");
         close(fd);
-        exit(EXIT_FAILURE);
+        return false;
     }
 
     else if (result == 0)
     {
         fprintf(stderr, "Timeout waiting for register response\n");
         close(fd);
-        exit(EXIT_FAILURE);
+        return false;
     }
 
     int result = read(fd, buffer, 256);
+    if (result == -1)
+    {
+        perror("read");
+        close(fd);
+        return false;
+    }
+
+    if (!MessageBuilder::isValidMessage(buffer, result, 0))
+    {
+        close(fd);
+        return false;
+    }
 
 
     producer.uid = static_cast<message::UID>(rand() % 256);
